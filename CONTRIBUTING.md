@@ -50,3 +50,59 @@ Before creating a Merge Request:
 - [ ] MR is linked to the issue.
 - [ ] Only related files are changed.
 - [ ] Project still supports offline CPU-first execution.
+## Development Workflow
+
+Every feature must follow:
+
+Issue → Branch → Commit → Merge Request
+
+Example:
+
+Issue #6
+
+↓
+
+Branch:
+docs/6-contributing-guidelines
+
+↓
+
+Commit:
+docs: improve contribution workflow
+
+↓
+
+Merge Request
+
+---
+
+## Branch Naming
+
+docs/<issue-number>-description
+
+feat/<issue-number>-description
+
+test/<issue-number>-description
+
+fix/<issue-number>-description
+
+---
+
+## Semantic Commit Examples
+
+docs:
+feat:
+fix:
+test:
+style:
+chore:
+
+---
+
+## Merge Request Checklist
+
+- Related issue linked
+- Documentation updated
+- Tests added if needed
+- Offline-first maintained
+- CPU-first maintained
