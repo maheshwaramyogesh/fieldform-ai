@@ -34,6 +34,10 @@ class InspectionReport(BaseModel):
 
     people_count: int = Field(..., ge=0)
 
+    recommended_actions: List[str] = Field(
+    description="Recommended actions to resolve the issues"
+)
+
     issues: List[str]
 
     severity: Severity
