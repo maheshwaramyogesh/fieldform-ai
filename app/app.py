@@ -44,9 +44,27 @@ if st.button("Generate Structured Report"):
     else:
         st.warning("Please enter inspection notes.")
 
-st.subheader("Saved Inspection Reports")
+st.subheader("Dashboard Statistics")
 
 saved_reports = get_all_reports()
+
+if saved_reports:
+    total_reports = len(saved_reports)
+    high_severity_count = sum(1 for report in saved_reports if report[11] == "High")
+    pending_count = sum(1 for report in saved_reports if report[13] == "Pending")
+    avg_confidence = sum(report[14] for report in saved_reports) / total_reports
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric("Total Reports", total_reports)
+    col2.metric("High Severity", high_severity_count)
+    col3.metric("Pending", pending_count)
+    col4.metric("Avg Confidence", round(avg_confidence, 2))
+
+    st.subheader("Saved Inspection Reports")
+    st.dataframe(saved_reports)
+else:
+    st.info("No saved reports yet.")
 
 if saved_reports:
     st.dataframe(saved_reports)
