@@ -1,5 +1,8 @@
 import streamlit as st
+
 from llm import generate_report
+from normalizer import normalize_ai_output
+from database import create_database, save_report, get_all_reports
 
 st.set_page_config(
     page_title="FieldForm AI",
@@ -8,6 +11,8 @@ st.set_page_config(
 )
 
 st.title("📝 FieldForm AI")
+
+create_database()
 
 st.markdown(
     """
@@ -25,12 +30,25 @@ inspection_notes = st.text_area(
 
 if st.button("Generate Structured Report"):
     if inspection_notes.strip():
-        with st.spinner("Generating structured report..."):
-            report = generate_report(inspection_notes)
+        try:
+            with st.spinner("Generating and saving structured report..."):
+                ai_output = generate_report(inspection_notes)
+                report = normalize_ai_output(ai_output)
+                save_report(report)
+                st.session_state["last_saved"] = True
+            st.success("Report generated and saved successfully!")
+            st.json(report.model_dump(mode="json"))
 
-        st.success("Report generated successfully!")
-
-        st.json(report)
-
+        except Exception as error:
+            st.error(f"Error: {error}")
     else:
         st.warning("Please enter inspection notes.")
+
+st.subheader("Saved Inspection Reports")
+
+saved_reports = get_all_reports()
+
+if saved_reports:
+    st.dataframe(saved_reports)
+else:
+    st.info("No saved reports yet.")
