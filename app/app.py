@@ -1,4 +1,5 @@
 import streamlit as st
+from llm import generate_report
 
 st.set_page_config(
     page_title="FieldForm AI",
@@ -24,7 +25,12 @@ inspection_notes = st.text_area(
 
 if st.button("Generate Structured Report"):
     if inspection_notes.strip():
-        st.info("🚧 AI integration will be added in the next issue.")
-        st.text_area("Input Preview", inspection_notes, height=200)
+        with st.spinner("Generating structured report..."):
+            report = generate_report(inspection_notes)
+
+        st.success("Report generated successfully!")
+
+        st.json(report)
+
     else:
         st.warning("Please enter inspection notes.")
