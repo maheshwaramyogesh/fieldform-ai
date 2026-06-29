@@ -32,7 +32,7 @@ def create_database():
     conn.commit()
     conn.close()
 
-    print("✅ Database initialized successfully.")
+    
 def save_report(report):
     """Save an inspection report to the database."""
 
@@ -40,7 +40,7 @@ def save_report(report):
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT INTO inspection_reports VALUES (
+    INSERT OR REPLACE INTO inspection_reports VALUES (
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )
     """, (
@@ -64,7 +64,7 @@ def save_report(report):
     conn.commit()
     conn.close()
 
-    print("✅ Report saved successfully.")
+    
 
 def get_all_reports():
     """Retrieve all inspection reports."""
