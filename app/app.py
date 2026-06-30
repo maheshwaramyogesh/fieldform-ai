@@ -345,7 +345,12 @@ elif st.session_state.nav == "Live Dashboard":
             "People", "Issues", "Severity", "Recommended Actions", "Status", "Confidence",
         ]
         df = pd.DataFrame(saved_reports, columns=columns)
+        st.markdown('<div class="section-title">🔎 Search Reports</div>', unsafe_allow_html=True)
 
+        search_text = st.text_input(
+                "Search saved reports",
+        placeholder="Search by report ID, institution, location, district, or state",
+        )
         st.subheader("📊 Inspection Analytics")
 
         severity_counts = (
@@ -671,66 +676,50 @@ elif st.session_state.nav == "Report Explorer":
             "Institution", "Institution Type", "Inspector", "Summary",
             "People", "Issues", "Severity", "Recommended Actions", "Status", "Confidence",
         ]
-        df = pd.DataFrame(saved_reports, columns=columns)
+        saved_reports = get_all_reports()
+df = pd.DataFrame(saved_reports, columns=columns)
 
-        st.markdown('<div class="section-title">🗂️ Report Explorer</div>', unsafe_allow_html=True)
-        search = st.text_input("🔎 Search by institution, location or report ID", "")
+st.markdown('<div class="section-title">🗂️ Report Explorer</div>', unsafe_allow_html=True)
 
-        view = df.copy()
-        if search:
+search_text = st.text_input(
+            "🔎 Search reports",
+            placeholder="Search by report ID, institution, location, district, or state",
+        )
+
+view = df.copy()
+
+if search_text:
+            search_lower = search_text.lower()
+
             mask = (
-                view["Institution"].str.contains(search, case=False, na=False)
-                | view["Location"].str.contains(search, case=False, na=False)
-                | view["Report ID"].str.contains(search, case=False, na=False)
+                view["Report ID"].astype(str).str.lower().str.contains(search_lower, na=False)
+                | view["Institution"].astype(str).str.lower().str.contains(search_lower, na=False)
+                | view["Location"].astype(str).str.lower().str.contains(search_lower, na=False)
+                | view["District"].astype(str).str.lower().str.contains(search_lower, na=False)
+                | view["State"].astype(str).str.lower().str.contains(search_lower, na=False)
             )
+
             view = view[mask]
 
-        st.caption(f"{len(view)} report(s) found")
+st.caption(f"{len(view)} matching report(s) found")
 
-        for _, row in view.iterrows():
-            sev_color = SEVERITY_COLORS.get(row["Severity"], PRIMARY)
-            status_color = STATUS_COLORS.get(row["Status"], PRIMARY)
-            with st.container(border=True):
-                top1, top2, top3 = st.columns([3, 1, 1])
-                with top1:
-                    st.markdown(f"**🏫 {row['Institution']}** &nbsp; `{row['Report ID']}`")
-                    st.caption(f"{row['Location']}, {row['District']}, {row['State']} · {row['Inspection Date']}")
-                with top2:
-                    st.markdown(
-                        f'<span class="sev-badge" style="background:{sev_color};">{row["Severity"]}</span>',
-                        unsafe_allow_html=True,
-                    )
-                with top3:
-                    st.markdown(
-                        f'<span class="status-badge" style="background:{status_color};">{row["Status"]}</span>',
-                        unsafe_allow_html=True,
-                    )
+for _, row in view.iterrows():
 
-                with st.expander("View full report"):
-                    st.markdown(f"**Summary:** {row['Summary']}")
-                    m1, m2, m3 = st.columns(3)
-                    m1.metric("People", row["People"])
-                    m2.metric("Confidence", f"{row['Confidence']:.0%}")
-                    m3.metric("Inspector", row["Inspector"])
+    report_id = row["Report ID"]
 
-                    import json as _json
-                    issues = row["Issues"]
-                    actions = row["Recommended Actions"]
-                    try:
-                        issues = _json.loads(issues) if isinstance(issues, str) else issues
-                    except Exception:
-                        issues = [issues]
-                    try:
-                        actions = _json.loads(actions) if isinstance(actions, str) else actions
-                    except Exception:
-                        actions = [actions]
-
-                    ic, ac = st.columns(2)
-                    with ic:
-                        st.markdown("**🔴 Issues**")
-                        for i in issues:
-                            st.markdown(f'<div class="issue-chip">⚠️ {i}</div>', unsafe_allow_html=True)
-                    with ac:
-                        st.markdown("**🟢 Recommended Actions**")
-                        for a in actions:
-                            st.markdown(f'<div class="action-chip">✅ {a}</div>', unsafe_allow_html=True)
+    with st.expander(
+        f"📄 {report_id} - {row['Institution']} ({row['Location']}, {row['District']})"
+    ):
+        st.markdown(f"**Inspection Date:** {row['Inspection Date']}")
+        st.markdown(f"**State:** {row['State']}")
+        st.markdown(f"**District:** {row['District']}")
+        st.markdown(f"**Location:** {row['Location']}")
+        st.markdown(f"**Institution Type:** {row['Institution Type']}")
+        st.markdown(f"**Inspector:** {row['Inspector']}")
+        st.markdown(f"**Summary:** {row['Summary']}")
+        st.markdown(f"**People Present:** {row['People']}")
+        st.markdown(f"**Issues Identified:** {row['Issues']}")
+        st.markdown(f"**Severity:** {row['Severity']}")
+        st.markdown(f"**Recommended Actions:** {row['Recommended Actions']}")
+        st.markdown(f"**Status:** {row['Status']}")
+        st.markdown(f"**Confidence Score:** {row['Confidence']:.0%}")
