@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.llm import clean_model_response, generate_report
+from app.llm import clean_model_response, generate_report  # noqa: E402
 
 
 def test_clean_model_response_removes_markdown_fence():
@@ -20,7 +20,9 @@ def test_clean_model_response_removes_markdown_fence():
 @patch("app.llm.ollama.chat")
 def test_generate_report_valid_json(mock_chat):
     mock_chat.return_value = {
-        "message": {"content": '{"location": "Government School", "severity": "High"}'}
+        "message": {
+            "content": '{"location": "Government School", "severity": "High"}'
+        }
     }
 
     result = generate_report("Visited Government School. Roof leaking.")

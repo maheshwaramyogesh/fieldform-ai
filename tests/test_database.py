@@ -1,7 +1,8 @@
 import os
 from datetime import date
 
-from app.database import create_database, save_report, get_all_reports, get_report_by_id
+from app.database import (create_database, get_all_reports, get_report_by_id,
+                          save_report)
 from app.schema import InspectionReport, Severity, Status
 
 if os.path.exists("fieldform.db"):

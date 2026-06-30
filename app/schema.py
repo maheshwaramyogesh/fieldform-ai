@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field
-from typing import List
 from datetime import date
 from enum import Enum
+from typing import List
+
+from pydantic import BaseModel, Field
 
 
 class Severity(str, Enum):
