@@ -4,7 +4,6 @@ stages:
   - verify
 
 before_script:
-  - before_script:
   - python --version
   - python -m pip install --upgrade pip
   - python -m pip install -r requirements.txt
@@ -17,4 +16,4 @@ python_syntax:
 black:
   stage: verify
   script:
-    - black --check app
+    - python -m black --check app
