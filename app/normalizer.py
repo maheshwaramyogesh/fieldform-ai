@@ -3,7 +3,7 @@ import re
 from datetime import date, datetime
 from uuid import uuid4
 
-from schema import InspectionReport, Severity, Status
+from app.schema import InspectionReport, Severity, Status
 
 
 def _normalize_date(value):

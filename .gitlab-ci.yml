@@ -40,3 +40,8 @@ detect_secrets:
   stage: verify
   script:
     - py -m detect_secrets scan --all-files
+
+pytest:
+  stage: verify
+  script:
+    - py -m pytest -c pytest.ini -v
