@@ -80,6 +80,36 @@ def get_all_reports():
 
     return reports
 
+def update_status(report_id, new_status):
+    """Update the status field of a single report."""
+
+    conn = sqlite3.connect(DATABASE_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "UPDATE inspection_reports SET status = ? WHERE report_id = ?",
+        (new_status, report_id),
+    )
+
+    conn.commit()
+    conn.close()
+
+
+def delete_report(report_id):
+    """Delete a single report by its ID."""
+
+    conn = sqlite3.connect(DATABASE_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM inspection_reports WHERE report_id = ?",
+        (report_id,),
+    )
+
+    conn.commit()
+    conn.close()
+
+
 def get_report_by_id(report_id):
     """Retrieve a single report by its ID."""
 
