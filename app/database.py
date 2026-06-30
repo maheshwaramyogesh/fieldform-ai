@@ -1,7 +1,8 @@
 import json
 import sqlite3
+from pathlib import Path
 
-DATABASE_NAME = "fieldform.db"
+DATABASE_NAME = Path(__file__).resolve().parent / "fieldform.db"
 
 
 def create_database():

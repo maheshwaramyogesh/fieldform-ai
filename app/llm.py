@@ -3,7 +3,10 @@ import re
 
 import ollama
 
-from app.prompts import SYSTEM_PROMPT, build_extraction_prompt
+try:
+    from .prompts import SYSTEM_PROMPT, build_extraction_prompt
+except ImportError:
+    from prompts import SYSTEM_PROMPT, build_extraction_prompt
 
 
 def clean_model_response(content: str) -> str:
