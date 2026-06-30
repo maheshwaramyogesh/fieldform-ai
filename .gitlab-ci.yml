@@ -37,3 +37,8 @@ bandit:
   stage: verify
   script:
     - python -m bandit -r app
+
+detect_secrets:
+  stage: verify
+  script:
+    - python -m detect_secrets scan --all-files
