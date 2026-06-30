@@ -15,9 +15,7 @@ def transcribe_audio(uploaded_audio):
     Convert Streamlit audio input into text.
     """
 
-    with tempfile.NamedTemporaryFile(
-        delete=False, suffix=".wav"
-    ) as temp_audio:
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
         temp_audio.write(uploaded_audio.read())
         audio_path = temp_audio.name
 

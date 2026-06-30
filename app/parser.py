@@ -26,4 +26,4 @@ def parse_ai_response(response: str) -> dict[str, Any]:
     try:
         return json.loads(cleaned)
     except json.JSONDecodeError as exc:
-        raise ValueError(f"Invalid JSON returned by AI: {exc}")
+        raise ValueError(f"Invalid JSON returned by AI: {exc}") from exc
