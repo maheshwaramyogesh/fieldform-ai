@@ -8,6 +8,24 @@ The application is designed for government officers, NGOs, inspectors, survey te
 
 All AI inference runs locally on the user's device without relying on cloud APIs, making the system privacy-friendly, reliable, and suitable for remote field operations.
 
+## 🏆 Hackathon Highlights
+
+FieldForm AI was developed for the **CPU-First Offline AI Hackathon** with the objective of demonstrating that powerful AI applications can run efficiently on ordinary laptops without relying on GPUs or cloud services.
+
+### Highlights
+
+- ✅ Fully Offline AI Processing
+- ✅ CPU-Only Inference
+- ✅ Local Ollama Language Model
+- ✅ Offline Faster-Whisper Speech Recognition
+- ✅ Structured JSON Extraction
+- ✅ Automatic Data Validation
+- ✅ SQLite Local Storage
+- ✅ Interactive Analytics Dashboard
+- ✅ Search & Filter Reports
+- ✅ JSON & PDF Export
+- ✅ Privacy-First Architecture
+
 ## ❗ Problem Statement
 
 Field inspectors and survey teams often record observations as free-form text during inspections. These notes are later manually converted into structured reports, resulting in repetitive work, inconsistent formatting, and increased chances of human error.
@@ -178,6 +196,33 @@ fieldform-ai/
 * Ollama installed locally
 * A lightweight local language model (GGUF format)
 
+## 🚀 Quick Start
+
+```bash
+git clone <repository-url>
+
+cd fieldform-ai
+
+pip install -r requirements.txt
+
+streamlit run app/app.py
+```
+
+Open your browser at:
+
+```
+http://localhost:8501
+```
+
+Start by:
+
+1. Entering or recording inspection notes.
+2. Generate a structured report.
+3. Review AI-normalized data.
+4. Save to SQLite.
+5. Explore analytics.
+6. Export as JSON or PDF.
+
 ### Clone the repository
 
 ```bash
@@ -197,6 +242,23 @@ pip install -r requirements.txt
 streamlit run app/app.py
 ```
 
+## 📌 Key Capabilities
+
+| Feature | Status |
+|----------|--------|
+| Offline AI Inference | ✅ |
+| CPU-Only Processing | ✅ |
+| Voice Input | ✅ |
+| Faster-Whisper Speech-to-Text | ✅ |
+| Local SQLite Storage | ✅ |
+| AI Output Normalization | ✅ |
+| Dashboard Analytics | ✅ |
+| Search & Filter | ✅ |
+| Report Explorer | ✅ |
+| JSON Export | ✅ |
+| PDF Export | ✅ |
+| Offline Operation | ✅ |
+
 ## 🔮 Future Scope
 
 - 🖼️ Image-based inspection analysis using OCR or Vision Language Models.
@@ -207,6 +269,24 @@ streamlit run app/app.py
 - ☁️ Optional synchronization with a central server when internet connectivity becomes available.
 - 📊 Advanced analytics and predictive safety insights.
 - 📧 Automatic email notifications and report sharing.
+
+
+## 📌 Key Capabilities
+
+| Feature | Status |
+|----------|--------|
+| Offline AI Inference | ✅ |
+| CPU-Only Processing | ✅ |
+| Voice Input | ✅ |
+| Faster-Whisper Speech-to-Text | ✅ |
+| Local SQLite Storage | ✅ |
+| AI Output Normalization | ✅ |
+| Dashboard Analytics | ✅ |
+| Search & Filter | ✅ |
+| Report Explorer | ✅ |
+| JSON Export | ✅ |
+| PDF Export | ✅ |
+| Offline Operation | ✅ |
 
 ## 📜 License
 
