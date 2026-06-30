@@ -1,5 +1,5 @@
 import time
-from datetime import datetime, date
+from datetime import datetime
 
 import pandas as pd
 import plotly.graph_objects as go
