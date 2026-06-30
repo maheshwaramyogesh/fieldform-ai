@@ -22,3 +22,8 @@ ruff:
   stage: verify
   script:
     - python -m ruff check app
+
+isort:
+  stage: verify
+  script:
+    - python -m isort --check-only app
