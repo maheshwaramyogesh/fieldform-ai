@@ -23,10 +23,7 @@ ruff:
   script:
     - python -m ruff check app
 
-debug_imports:
-  stage: verify
-  script:
-    - Get-Content app/app.py -TotalCount 25
+
 
 isort:
   stage: verify
