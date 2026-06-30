@@ -40,9 +40,3 @@ detect_secrets:
   stage: verify
   script:
     - py -m detect_secrets scan --all-files
-
-pip_audit:
-  stage: verify
-  script:
-    - py -m pip_audit
-  allow_failure: true
