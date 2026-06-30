@@ -23,9 +23,12 @@ ruff:
   script:
     - python -m ruff check app
 
-
-
 isort:
   stage: verify
   script:
     - python -m isort --check-only app
+
+flake8:
+  stage: verify
+  script:
+    - python -m flake8 app
