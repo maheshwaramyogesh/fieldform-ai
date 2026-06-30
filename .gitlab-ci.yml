@@ -45,3 +45,8 @@ pytest:
   stage: verify
   script:
     - py -m pytest -c pytest.ini -v
+
+pip_check:
+  stage: verify
+  script:
+    - py -m pip check
