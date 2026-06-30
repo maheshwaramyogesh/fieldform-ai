@@ -32,3 +32,8 @@ flake8:
   stage: verify
   script:
     - python -m flake8 app
+
+bandit:
+  stage: verify
+  script:
+    - python -m bandit -r app

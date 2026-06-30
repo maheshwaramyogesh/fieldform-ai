@@ -349,7 +349,8 @@ elif st.session_state.nav == "Live Dashboard":
 
     if not saved_reports:
         st.info(
-            "No saved reports yet. Go to **Record Inspection** to create your first one."
+            "No saved reports yet. "
+            "Go to **Record Inspection** to create your first one."
         )
     else:
         columns = [
@@ -376,8 +377,11 @@ elif st.session_state.nav == "Live Dashboard":
 
         search_text = st.text_input(
             "Search saved reports",
-            placeholder="Search by report ID, institution, location, district, or state",
+            placeholder=(
+                "Search by report ID, institution, " "location, district, or state"
+            ),
         )
+
         st.subheader("📊 Inspection Analytics")
 
         severity_counts = (
@@ -527,7 +531,11 @@ elif st.session_state.nav == "Live Dashboard":
         filtered = filtered.sort_values(sort_by, ascending=False)
 
         st.markdown(
-            f'<div class="subtle">Showing {len(filtered)} of {total_reports} reports</div>',
+            (
+                f'<div class="subtle">'
+                f"Showing {len(filtered)} of {total_reports} reports"
+                "</div>"
+            ),
             unsafe_allow_html=True,
         )
         st.markdown("<br>", unsafe_allow_html=True)
@@ -742,7 +750,7 @@ elif st.session_state.nav == "Analytics":
         fig3.update_layout(
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#f0f1f8"),
+            font={"color": "#f0f1f8"},
             margin=dict(t=10, b=10, l=10, r=10),
             height=300,
             xaxis=dict(showgrid=False),
@@ -788,13 +796,13 @@ elif st.session_state.nav == "Analytics":
                         x=df["People"],
                         y=df["Confidence"],
                         mode="markers",
-                        marker=dict(
-                            size=12,
-                            color=[
+                        marker={
+                            "size": 12,
+                            "color": [
                                 SEVERITY_COLORS.get(s, "#888") for s in df["Severity"]
                             ],
-                            line=dict(width=1, color="white"),
-                        ),
+                            "line": {"width": 1, "color": "white"},
+                        },
                         text=df["Institution"],
                     )
                 ]
@@ -802,13 +810,18 @@ elif st.session_state.nav == "Analytics":
             fig5.update_layout(
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
-                font=dict(color="#f0f1f8"),
-                margin=dict(t=10, b=10, l=10, r=10),
+                font={"color": "#f0f1f8"},
+                margin={"t": 10, "b": 10, "l": 10, "r": 10},
                 height=320,
-                xaxis=dict(title="People Present", gridcolor="rgba(255,255,255,0.07)"),
-                yaxis=dict(
-                    title="Confidence", range=[0, 1], gridcolor="rgba(255,255,255,0.07)"
-                ),
+                xaxis={
+                    "title": "People Present",
+                    "gridcolor": "rgba(255,255,255,0.07)",
+                },
+                yaxis={
+                    "title": "Confidence",
+                    "range": [0, 1],
+                    "gridcolor": "rgba(255,255,255,0.07)",
+                },
             )
             st.plotly_chart(fig5, use_container_width=True)
 
@@ -820,7 +833,8 @@ elif st.session_state.nav == "Report Explorer":
 
     if not saved_reports:
         st.info(
-            "No saved reports yet. Go to **Record Inspection** to create your first one."
+            "No saved reports yet. "
+            "Go to **Record Inspection** to create your first one."
         )
     else:
         columns = [
