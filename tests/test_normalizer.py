@@ -1,6 +1,5 @@
 from app.normalizer import normalize_ai_output
 
-
 sample_ai_output = {
     "report_id": None,
     "inspection_date": None,
@@ -13,18 +12,12 @@ sample_ai_output = {
     "summary": "Roof leaking in Block A. No drinking water. Needs urgent repair.",
     "people_count": "150",
     "issues": [
-        {
-            "issue_type": "Roof Leaking",
-            "description": "Roof leaking in Block A."
-        },
-        {
-            "issue_type": "No Drinking Water",
-            "description": "No drinking water."
-        }
+        {"issue_type": "Roof Leaking", "description": "Roof leaking in Block A."},
+        {"issue_type": "No Drinking Water", "description": "No drinking water."},
     ],
     "severity": ["High"],
     "status": ["Pending"],
-    "confidence_score": None
+    "confidence_score": None,
 }
 
 

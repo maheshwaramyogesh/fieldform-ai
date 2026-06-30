@@ -25,8 +25,12 @@ def generate_pdf(report):
 
     story.append(Paragraph(f"<b>Report ID:</b> {report.report_id}", styles["Normal"]))
     story.append(Paragraph(f"<b>Date:</b> {report.inspection_date}", styles["Normal"]))
-    story.append(Paragraph(f"<b>Inspector:</b> {report.inspector_name}", styles["Normal"]))
-    story.append(Paragraph(f"<b>Institution:</b> {report.institution_name}", styles["Normal"]))
+    story.append(
+        Paragraph(f"<b>Inspector:</b> {report.inspector_name}", styles["Normal"])
+    )
+    story.append(
+        Paragraph(f"<b>Institution:</b> {report.institution_name}", styles["Normal"])
+    )
     story.append(Paragraph(f"<b>Location:</b> {report.location}", styles["Normal"]))
     story.append(Paragraph(f"<b>State:</b> {report.state}", styles["Normal"]))
     story.append(Paragraph(f"<b>District:</b> {report.district}", styles["Normal"]))

@@ -18,7 +18,7 @@ def clean_model_response(content: str) -> str:
 def generate_report(notes: str):
     """Generate a structured inspection report using a local Ollama model."""
     response = ollama.chat(
-    model="llama3.2:latest",
+        model="llama3.2:latest",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": build_extraction_prompt(notes)},
