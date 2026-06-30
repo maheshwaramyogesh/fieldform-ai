@@ -1,6 +1,5 @@
 import sqlite3
 import json
-from pathlib import Path
 
 DATABASE_NAME = "fieldform.db"
 
