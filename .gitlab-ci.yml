@@ -4,9 +4,10 @@ stages:
   - verify
 
 before_script:
+  - before_script:
   - python --version
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
+  - python -m pip install --upgrade pip
+  - python -m pip install -r requirements.txt
 
 python_syntax:
   stage: verify
