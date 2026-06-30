@@ -1,3 +1,4 @@
+import json
 import streamlit as st
 
 from llm import generate_report
@@ -62,11 +63,18 @@ if saved_reports:
     col4.metric("Avg Confidence", round(avg_confidence, 2))
 
     st.subheader("Saved Inspection Reports")
-    st.dataframe(saved_reports)
-else:
-    st.info("No saved reports yet.")
 
 if saved_reports:
     st.dataframe(saved_reports)
+
+    reports_json = json.dumps(saved_reports, indent=2)
+
+    st.download_button(
+        label="Download Reports as JSON",
+        data=reports_json,
+        file_name="inspection_reports.json",
+        mime="application/json",
+    )
+
 else:
     st.info("No saved reports yet.")

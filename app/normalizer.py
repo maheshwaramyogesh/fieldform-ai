@@ -1,7 +1,7 @@
 from datetime import date
 from uuid import uuid4
 
-from app.schema import InspectionReport, Severity, Status
+from schema import InspectionReport, Severity, Status
 
 
 def _first_value(value, default):
