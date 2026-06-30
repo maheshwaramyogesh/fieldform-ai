@@ -36,48 +36,107 @@ The generated structured records are validated and stored in a local SQLite data
 
 ## 🛠️ Technology Stack
 
-| Component            | Technology                                          |
-| -------------------- | --------------------------------------------------- |
-| Programming Language | Python 3                                            |
-| Frontend             | Streamlit                                           |
-| AI Runtime           | Ollama (CPU)                                        |
-| Local Language Model | Lightweight GGUF Model (e.g., Qwen2.5 / Phi-3 Mini) |
-| Database             | SQLite                                              |
-| Version Control      | Git & GitLab                                        |
-| Operating Mode       | Offline-First                                       |
-| Platform             | Web Application                                     |
+| Component | Technology |
+|------------|------------|
+| Programming Language | Python 3.11+ |
+| Frontend | Streamlit |
+| AI Runtime | Ollama |
+| Local Language Model | Qwen2.5 / Phi-3 Mini (GGUF) |
+| Speech-to-Text | Faster-Whisper |
+| Database | SQLite |
+| Data Processing | Pandas |
+| Data Visualization | Plotly |
+| PDF Generation | ReportLab |
+| Schema Validation | Pydantic |
+| Version Control | Git & GitLab |
+| Operating Mode | Offline-First |
+| AI Execution | CPU-Only |
+| Platform | Web Application |
 
 ## 🏗️ System Architecture
 
 ```text
-                User
-                  │
-                  ▼
-      Enter Field Inspection Notes
-                  │
-                  ▼
-      Local CPU-based Language Model
-        (Offline AI Inference)
-                  │
-                  ▼
-      Structured JSON Extraction
-                  │
-                  ▼
-          SQLite Local Database
-                  │
-                  ▼
-      Search • View • Export Reports
+                  User
+          (Text / Voice Input)
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+        ▼                       ▼
+ Text Inspection Notes   Voice Recording
+                                │
+                                ▼
+               Faster-Whisper (Offline STT)
+                                │
+                                ▼
+                     Unified Inspection Text
+                                │
+                                ▼
+                 Ollama Local Language Model
+                    (CPU-Only Inference)
+                                │
+                                ▼
+              Structured JSON Extraction
+                                │
+                                ▼
+         Validation & AI Output Normalization
+                                │
+                                ▼
+               SQLite Local Database Storage
+                                │
+          ┌─────────────┼──────────────┐
+          ▼             ▼              ▼
+  Dashboard Analytics  Report Explorer  Search & Filters
+          │
+          ▼
+     JSON Export / PDF Export
 ```
 
-### Workflow
+## 🔄 Application Workflow
 
-1. The user enters field inspection notes.
-2. The application processes the text using a local CPU-based AI model.
-3. The AI extracts structured information into a predefined JSON schema.
-4. The extracted data is validated.
-5. The validated record is stored in a local SQLite database.
-6. Users can search and view stored inspection reports without requiring an internet connection.
+### Text-Based Workflow
 
+1. User enters unstructured field inspection notes.
+2. Notes are sent to the local Ollama language model.
+3. The AI extracts structured inspection information.
+4. Output is normalized and validated against the inspection schema.
+5. The validated report is stored in the local SQLite database.
+6. Dashboard statistics and analytics update automatically.
+7. Reports can be searched, filtered, viewed, edited, and exported as JSON or PDF.
+
+---
+
+### Voice-Based Workflow
+
+1. User records inspection notes using the built-in microphone.
+2. Faster-Whisper performs offline speech-to-text transcription.
+3. The generated transcript is displayed for review and editing.
+4. The corrected transcript follows the same AI processing pipeline.
+5. The structured report is validated and stored locally.
+6. Dashboard analytics update automatically.
+7. Reports remain available offline for future access and export.
+
+---
+
+### Offline Processing Pipeline
+
+```text
+Text / Voice
+      │
+      ▼
+Faster-Whisper (Voice Only)
+      │
+      ▼
+Ollama Local AI
+      │
+      ▼
+Schema Validation
+      │
+      ▼
+SQLite Database
+      │
+      ▼
+Dashboard → Search → PDF / JSON Export
+```
 ## 📁 Project Structure
 
 ```text
@@ -140,12 +199,14 @@ streamlit run app/app.py
 
 ## 🔮 Future Scope
 
-* Support voice input using Whisper.cpp.
-* Support image-based inspection reports using OCR.
-* Export reports to CSV and PDF.
-* Advanced dashboard with analytics and visualizations.
-* Multi-language support for regional field workers.
-* Synchronization with a central server when internet becomes available.
+- 🖼️ Image-based inspection analysis using OCR or Vision Language Models.
+- 🌍 Multi-language speech recognition and report generation.
+- 📱 Progressive Web App (PWA) support for offline installation.
+- 📍 GPS and geotag integration for inspection sites.
+- 👥 Multi-user authentication and role-based access.
+- ☁️ Optional synchronization with a central server when internet connectivity becomes available.
+- 📊 Advanced analytics and predictive safety insights.
+- 📧 Automatic email notifications and report sharing.
 
 ## 📜 License
 
