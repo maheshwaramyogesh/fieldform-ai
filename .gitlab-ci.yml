@@ -17,3 +17,8 @@ black:
   stage: verify
   script:
     - python -m black --check app
+
+ruff:
+  stage: verify
+  script:
+    - python -m ruff check app
