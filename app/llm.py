@@ -2,7 +2,6 @@ import json
 import re
 
 import ollama
-
 from prompts import SYSTEM_PROMPT, build_extraction_prompt
 
 

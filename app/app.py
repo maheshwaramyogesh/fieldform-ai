@@ -2,21 +2,15 @@ import time
 from datetime import datetime
 
 import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from speech import transcribe_audio
-import plotly.express as px
-
-from database import (
-    create_database,
-    get_all_reports,
-    save_report,
-    update_status,
-    delete_report,
-)
+from database import (create_database, delete_report, get_all_reports,
+                      save_report, update_status)
 from llm import generate_report
 from normalizer import normalize_ai_output
 from pdf_export import generate_pdf
+from speech import transcribe_audio
 
 # ============================================================================
 # PAGE CONFIG

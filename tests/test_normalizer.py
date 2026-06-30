@@ -9,11 +9,19 @@ sample_ai_output = {
     "institution_name": "Government High School",
     "institution_type": "School",
     "inspector_name": "null",
-    "summary": "Roof leaking in Block A. No drinking water. Needs urgent repair.",
+    "summary": (
+        "Roof leaking in Block A. No drinking water. Needs urgent repair."
+    ),
     "people_count": "150",
     "issues": [
-        {"issue_type": "Roof Leaking", "description": "Roof leaking in Block A."},
-        {"issue_type": "No Drinking Water", "description": "No drinking water."},
+        {
+            "issue_type": "Roof Leaking",
+            "description": "Roof leaking in Block A.",
+        },
+        {
+            "issue_type": "No Drinking Water",
+            "description": "No drinking water.",
+        },
     ],
     "severity": ["High"],
     "status": ["Pending"],

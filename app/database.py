@@ -1,5 +1,5 @@
-import sqlite3
 import json
+import sqlite3
 
 DATABASE_NAME = "fieldform.db"
 
@@ -120,7 +120,10 @@ def get_report_by_id(report_id):
     conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM inspection_reports WHERE report_id = ?", (report_id,))
+    cursor.execute(
+        "SELECT * FROM inspection_reports WHERE report_id = ?",
+        (report_id,),
+    )
 
     report = cursor.fetchone()
 

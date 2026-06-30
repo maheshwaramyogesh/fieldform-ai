@@ -58,7 +58,8 @@ def _normalize_date(value):
 
 
 def _first_value(value, default):
-    """Return first item if value is a list, otherwise return value or default."""
+    """Return first item if value is a list, otherwise return value
+    or default."""
     if isinstance(value, list) and value:
         return value[0]
     if value in (None, "", "null"):
@@ -115,7 +116,7 @@ def _normalize_issues(issues) -> list[str]:
         except json.JSONDecodeError:
             return [issues]
 
-    normalized = []
+    normalized: list[str] = []
 
     if not isinstance(issues, list):
         return normalized
@@ -124,7 +125,9 @@ def _normalize_issues(issues) -> list[str]:
 
         # Simple string
         if isinstance(issue, str):
-            cleaned = re.sub(r"^Pending\s*-\s*", "", issue, flags=re.IGNORECASE)
+            cleaned = re.sub(
+                r"^Pending\s*-\s*", "", issue, flags=re.IGNORECASE
+            )
             normalized.append(cleaned)
             continue
 
@@ -325,5 +328,7 @@ def normalize_ai_output(ai_output: dict) -> InspectionReport:
             ai_output.get("recommended_actions", [])
         ),
         status=_normalize_status(ai_output.get("status")),
-        confidence_score=_normalize_confidence(ai_output.get("confidence_score")),
+        confidence_score=_normalize_confidence(
+            ai_output.get("confidence_score")
+        ),
     )
