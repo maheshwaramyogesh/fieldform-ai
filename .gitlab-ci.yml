@@ -50,3 +50,8 @@ pip_check:
   stage: verify
   script:
     - py -m pip check
+
+import_check:
+  stage: verify
+  script:
+    - py -c "import app.database; import app.llm; import app.normalizer; print('Imports OK')"
