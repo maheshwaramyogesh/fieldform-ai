@@ -16,6 +16,7 @@ from database import (
 )
 from llm import generate_report
 from normalizer import normalize_ai_output
+from pdf_export import generate_pdf
 
 # ============================================================================
 # PAGE CONFIG
@@ -311,6 +312,16 @@ For now, paste or type the transcript below to continue the AI pipeline.
 
                 with st.expander("🔎 View Raw JSON"):
                     st.json(report.model_dump(mode="json"))
+
+                    pdf_buffer = generate_pdf(report)
+
+                st.download_button(
+                    label="📄 Download Inspection Report (PDF)",
+                    data=pdf_buffer,
+                    file_name=f"{report.report_id}.pdf",
+                    mime="application/pdf",
+                    use_container_width=True,
+                )
 
             except Exception as error:
                 st.error("Failed to generate report.")
