@@ -32,7 +32,7 @@ def create_database():
     conn.commit()
     conn.close()
 
-    print("✅ Database initialized successfully.")
+    
 def save_report(report):
     """Save an inspection report to the database."""
 
@@ -40,7 +40,7 @@ def save_report(report):
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT INTO inspection_reports VALUES (
+    INSERT OR REPLACE INTO inspection_reports VALUES (
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )
     """, (
@@ -64,7 +64,7 @@ def save_report(report):
     conn.commit()
     conn.close()
 
-    print("✅ Report saved successfully.")
+    
 
 def get_all_reports():
     """Retrieve all inspection reports."""
@@ -79,6 +79,36 @@ def get_all_reports():
     conn.close()
 
     return reports
+
+def update_status(report_id, new_status):
+    """Update the status field of a single report."""
+
+    conn = sqlite3.connect(DATABASE_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "UPDATE inspection_reports SET status = ? WHERE report_id = ?",
+        (new_status, report_id),
+    )
+
+    conn.commit()
+    conn.close()
+
+
+def delete_report(report_id):
+    """Delete a single report by its ID."""
+
+    conn = sqlite3.connect(DATABASE_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM inspection_reports WHERE report_id = ?",
+        (report_id,),
+    )
+
+    conn.commit()
+    conn.close()
+
 
 def get_report_by_id(report_id):
     """Retrieve a single report by its ID."""
