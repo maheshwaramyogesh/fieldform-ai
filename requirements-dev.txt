@@ -1,0 +1,10 @@
+black
+ruff
+flake8
+isort
+mypy
+bandit
+pytest
+detect-secrets
+pip-audit
+yamllint
