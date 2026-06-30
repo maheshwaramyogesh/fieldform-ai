@@ -3,7 +3,7 @@ import re
 from datetime import date, datetime
 from uuid import uuid4
 
-from schema import InspectionReport, Severity, Status
+from app.schema import InspectionReport, Severity, Status
 
 
 def _normalize_date(value):
@@ -125,9 +125,7 @@ def _normalize_issues(issues) -> list[str]:
 
         # Simple string
         if isinstance(issue, str):
-            cleaned = re.sub(
-                r"^Pending\s*-\s*", "", issue, flags=re.IGNORECASE
-            )
+            cleaned = re.sub(r"^Pending\s*-\s*", "", issue, flags=re.IGNORECASE)
             normalized.append(cleaned)
             continue
 
@@ -328,7 +326,5 @@ def normalize_ai_output(ai_output: dict) -> InspectionReport:
             ai_output.get("recommended_actions", [])
         ),
         status=_normalize_status(ai_output.get("status")),
-        confidence_score=_normalize_confidence(
-            ai_output.get("confidence_score")
-        ),
+        confidence_score=_normalize_confidence(ai_output.get("confidence_score")),
     )

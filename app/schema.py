@@ -1,17 +1,16 @@
 from datetime import date
-from enum import Enum
-from typing import List
+from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
 
-class Severity(str, Enum):
+class Severity(StrEnum):
     LOW = "Low"
     MEDIUM = "Medium"
     HIGH = "High"
 
 
-class Status(str, Enum):
+class Status(StrEnum):
     PENDING = "Pending"
     IN_PROGRESS = "In Progress"
     RESOLVED = "Resolved"
@@ -38,11 +37,11 @@ class InspectionReport(BaseModel):
 
     people_count: int = Field(..., ge=0)
 
-    recommended_actions: List[str] = Field(
+    recommended_actions: list[str] = Field(
         description="Recommended actions to resolve the issues"
     )
 
-    issues: List[str]
+    issues: list[str]
 
     severity: Severity
 
