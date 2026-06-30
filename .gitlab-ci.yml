@@ -3,11 +3,16 @@ stages:
 
 quality_checks:
   stage: quality
+  tags:
+    - laxman-local
+
   image: python:3.12-slim
+
   before_script:
     - python -m pip install --upgrade pip
     - pip install -r requirements.txt
     - pip install -r requirements-dev.txt
+
   script:
     - python -m compileall app tests
     - black --check app tests
