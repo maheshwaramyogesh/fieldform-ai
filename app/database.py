@@ -1,14 +1,22 @@
 import json
+import os
 import sqlite3
 from pathlib import Path
 
-DATABASE_NAME = Path(__file__).resolve().parent / "fieldform.db"
+DATABASE_NAME = Path(
+    os.getenv("FIELDFORM_DB_PATH", Path(__file__).resolve().parent / "fieldform.db")
+)
+
+
+def _connect():
+    DATABASE_NAME.parent.mkdir(parents=True, exist_ok=True)
+    return sqlite3.connect(DATABASE_NAME)
 
 
 def create_database():
     """Create the SQLite database and inspection_reports table."""
 
-    conn = sqlite3.connect(DATABASE_NAME)
+    conn = _connect()
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -38,7 +46,7 @@ def create_database():
 def save_report(report):
     """Save an inspection report to the database."""
 
-    conn = sqlite3.connect(DATABASE_NAME)
+    conn = _connect()
     cursor = conn.cursor()
 
     cursor.execute(
@@ -73,7 +81,7 @@ def save_report(report):
 def get_all_reports():
     """Retrieve all inspection reports."""
 
-    conn = sqlite3.connect(DATABASE_NAME)
+    conn = _connect()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM inspection_reports")
@@ -88,7 +96,7 @@ def get_all_reports():
 def update_status(report_id, new_status):
     """Update the status field of a single report."""
 
-    conn = sqlite3.connect(DATABASE_NAME)
+    conn = _connect()
     cursor = conn.cursor()
 
     cursor.execute(
@@ -103,7 +111,7 @@ def update_status(report_id, new_status):
 def delete_report(report_id):
     """Delete a single report by its ID."""
 
-    conn = sqlite3.connect(DATABASE_NAME)
+    conn = _connect()
     cursor = conn.cursor()
 
     cursor.execute(
@@ -118,7 +126,7 @@ def delete_report(report_id):
 def get_report_by_id(report_id):
     """Retrieve a single report by its ID."""
 
-    conn = sqlite3.connect(DATABASE_NAME)
+    conn = _connect()
     cursor = conn.cursor()
 
     cursor.execute(

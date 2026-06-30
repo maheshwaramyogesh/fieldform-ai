@@ -2,12 +2,20 @@ import tempfile
 
 from faster_whisper import WhisperModel
 
-# Load the model only once when the app starts
-model = WhisperModel(
-    "base",
-    device="cpu",
-    compute_type="int8",
-)
+_model = None
+
+
+def _get_model():
+    global _model
+
+    if _model is None:
+        _model = WhisperModel(
+            "base",
+            device="cpu",
+            compute_type="int8",
+        )
+
+    return _model
 
 
 def transcribe_audio(uploaded_audio):
@@ -19,7 +27,7 @@ def transcribe_audio(uploaded_audio):
         temp_audio.write(uploaded_audio.read())
         audio_path = temp_audio.name
 
-    segments, info = model.transcribe(audio_path)
+    segments, _info = _get_model().transcribe(audio_path)
 
     transcript = " ".join(segment.text.strip() for segment in segments)
 

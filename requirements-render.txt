@@ -1,0 +1,8 @@
+streamlit
+ollama
+pydantic
+pandas
+plotly
+reportlab
+faster-whisper
+ctranslate2
