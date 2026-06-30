@@ -42,3 +42,8 @@ detect_secrets:
   stage: verify
   script:
     - python -m detect_secrets scan --all-files
+
+pip_audit:
+  stage: verify
+  script:
+    - python -m pip_audit
