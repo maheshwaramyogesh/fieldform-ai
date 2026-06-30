@@ -1,0 +1,22 @@
+stages:
+  - quality
+
+quality_checks:
+  stage: quality
+  image: python:3.12-slim
+  before_script:
+    - python -m pip install --upgrade pip
+    - pip install -r requirements.txt
+    - pip install -r requirements-dev.txt
+  script:
+    - python -m compileall app tests
+    - black --check app tests
+    - ruff check app tests
+    - flake8 app tests
+    - isort --check-only app tests
+    - mypy app --ignore-missing-imports
+    - bandit -r app
+    - pytest -q
+    - detect-secrets scan --all-files
+    - pip-audit
+    - yamllint .
