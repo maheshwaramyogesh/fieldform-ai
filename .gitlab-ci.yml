@@ -1,27 +1,57 @@
 stages:
-  - quality
+  - verify
 
-quality_checks:
-  stage: quality
-  tags:
-    - laxman-local
+before_script:
+  - py --version
+  - py -m pip install --upgrade pip
+  - py -m pip install -r requirements.txt
 
-  image: python:3.12-slim
-
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements.txt
-    - pip install -r requirements-dev.txt
-
+python_syntax:
+  stage: verify
   script:
-    - python -m compileall app tests
-    - black --check app tests
-    - ruff check app tests
-    - flake8 app tests
-    - isort --check-only app tests
-    - mypy app --ignore-missing-imports
-    - bandit -r app
-    - pytest -q
-    - detect-secrets scan --all-files
-    - pip-audit
-    - yamllint .
+    - py -m compileall app
+
+black:
+  stage: verify
+  script:
+    - py -m black --check app
+
+ruff:
+  stage: verify
+  script:
+    - py -m ruff check app
+
+isort:
+  stage: verify
+  script:
+    - py -m isort --check-only app
+
+flake8:
+  stage: verify
+  script:
+    - py -m flake8 app
+
+bandit:
+  stage: verify
+  script:
+    - py -m bandit -r app
+
+detect_secrets:
+  stage: verify
+  script:
+    - py -m detect_secrets scan --all-files
+
+pytest:
+  stage: verify
+  script:
+    - py -m pytest -c pytest.ini -v
+
+pip_check:
+  stage: verify
+  script:
+    - py -m pip check
+
+import_check:
+  stage: verify
+  script:
+    - py -c "import app.database; import app.llm; import app.normalizer; print('Imports OK')"

@@ -5,7 +5,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.parser import parse_ai_response
+from app.parser import parse_ai_response  # noqa: E402
 
 
 def test_parse_plain_json():

@@ -1,5 +1,6 @@
-from faster_whisper import WhisperModel
 import tempfile
+
+from faster_whisper import WhisperModel
 
 # Load the model only once when the app starts
 model = WhisperModel(
@@ -14,7 +15,9 @@ def transcribe_audio(uploaded_audio):
     Convert Streamlit audio input into text.
     """
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
+    with tempfile.NamedTemporaryFile(
+        delete=False, suffix=".wav"
+    ) as temp_audio:
         temp_audio.write(uploaded_audio.read())
         audio_path = temp_audio.name
 
