@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app.llm import clean_model_response, generate_report
 
+
 def test_clean_model_response_removes_markdown_fence():
     response = """```json
 {"location": "Government School"}
@@ -19,9 +20,7 @@ def test_clean_model_response_removes_markdown_fence():
 @patch("app.llm.ollama.chat")
 def test_generate_report_valid_json(mock_chat):
     mock_chat.return_value = {
-        "message": {
-            "content": '{"location": "Government School", "severity": "High"}'
-        }
+        "message": {"content": '{"location": "Government School", "severity": "High"}'}
     }
 
     result = generate_report("Visited Government School. Roof leaking.")
@@ -32,13 +31,9 @@ def test_generate_report_valid_json(mock_chat):
 
 @patch("app.llm.ollama.chat")
 def test_generate_report_markdown_json(mock_chat):
-    mock_chat.return_value = {
-        "message": {
-            "content": """```json
+    mock_chat.return_value = {"message": {"content": """```json
 {"location": "PHC Hospital", "severity": "Medium"}
-```"""
-        }
-    }
+```"""}}
 
     result = generate_report("Visited PHC Hospital.")
 
@@ -48,11 +43,7 @@ def test_generate_report_markdown_json(mock_chat):
 
 @patch("app.llm.ollama.chat")
 def test_generate_report_invalid_json(mock_chat):
-    mock_chat.return_value = {
-        "message": {
-            "content": "{ invalid json }"
-        }
-    }
+    mock_chat.return_value = {"message": {"content": "{ invalid json }"}}
 
     result = generate_report("Bad response test")
 

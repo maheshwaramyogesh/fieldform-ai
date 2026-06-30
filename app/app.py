@@ -178,11 +178,16 @@ st.markdown(
 # PAGE: RECORD INSPECTION
 # ============================================================================
 if st.session_state.nav == "Record Inspection":
-    st.markdown('<div class="section-title">🎙️ Capture Inspection Notes</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">🎙️ Capture Inspection Notes</div>',
+        unsafe_allow_html=True,
+    )
 
     mode = st.radio(
-        "Input mode", ["✍️ Type Notes", "🎙️ Record Voice Note"],
-        horizontal=True, label_visibility="collapsed",
+        "Input mode",
+        ["✍️ Type Notes", "🎙️ Record Voice Note"],
+        horizontal=True,
+        label_visibility="collapsed",
     )
 
     inspection_notes = ""
@@ -234,7 +239,9 @@ For now, paste or type the transcript below to continue the AI pipeline.
         )
 
     c_btn, c_clear = st.columns([4, 1])
-    generate_clicked = c_btn.button("🚀 Generate Structured Report", use_container_width=True, type="primary")
+    generate_clicked = c_btn.button(
+        "🚀 Generate Structured Report", use_container_width=True, type="primary"
+    )
     clear_clicked = c_clear.button("🧹 Clear", use_container_width=True)
 
     if clear_clicked:
@@ -287,7 +294,9 @@ For now, paste or type the transcript below to continue the AI pipeline.
                 top1, top2 = st.columns([3, 1])
                 with top1:
                     st.markdown(f"#### 🏫 {report.institution_name}")
-                    st.caption(f"{report.institution_type} · {report.location}, {report.district}, {report.state}")
+                    st.caption(
+                        f"{report.institution_type} · {report.location}, {report.district}, {report.state}"
+                    )
                 with top2:
                     st.markdown(
                         f'<span class="sev-badge" style="background:{sev_color};">{report.severity.value} Severity</span>',
@@ -306,7 +315,10 @@ For now, paste or type the transcript below to continue the AI pipeline.
                 with issue_col:
                     st.markdown("**🔴 Issues Identified**")
                     for issue in report.issues:
-                        st.markdown(f'<div class="issue-chip">⚠️ {issue}</div>', unsafe_allow_html=True)
+                        st.markdown(
+                            f'<div class="issue-chip">⚠️ {issue}</div>',
+                            unsafe_allow_html=True,
+                        )
 
                 st.markdown("</div>", unsafe_allow_html=True)
 
@@ -337,19 +349,35 @@ elif st.session_state.nav == "Live Dashboard":
     saved_reports = get_all_reports()
 
     if not saved_reports:
-        st.info("No saved reports yet. Go to **Record Inspection** to create your first one.")
+        st.info(
+            "No saved reports yet. Go to **Record Inspection** to create your first one."
+        )
     else:
         columns = [
-            "Report ID", "Inspection Date", "State", "District", "Location",
-            "Institution", "Institution Type", "Inspector", "Summary",
-            "People", "Issues", "Severity", "Recommended Actions", "Status", "Confidence",
+            "Report ID",
+            "Inspection Date",
+            "State",
+            "District",
+            "Location",
+            "Institution",
+            "Institution Type",
+            "Inspector",
+            "Summary",
+            "People",
+            "Issues",
+            "Severity",
+            "Recommended Actions",
+            "Status",
+            "Confidence",
         ]
         df = pd.DataFrame(saved_reports, columns=columns)
-        st.markdown('<div class="section-title">🔎 Search Reports</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="section-title">🔎 Search Reports</div>', unsafe_allow_html=True
+        )
 
         search_text = st.text_input(
-                "Search saved reports",
-        placeholder="Search by report ID, institution, location, district, or state",
+            "Search saved reports",
+            placeholder="Search by report ID, institution, location, district, or state",
         )
         st.subheader("📊 Inspection Analytics")
 
@@ -376,18 +404,20 @@ elif st.session_state.nav == "Live Dashboard":
         resolved_count = int((df["Status"] == "Resolved").sum())
         avg_confidence = df["Confidence"].mean()
 
-        st.markdown('<div class="section-title">📊 Live Overview</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="section-title">📊 Live Overview</div>', unsafe_allow_html=True
+        )
         c1, c2, c3, c4, c5 = st.columns(5)
         stats = [
-    ("📁 Total Reports", total_reports, "All inspections stored"),
-    ("🔴 High Severity", high_severity_count, "Immediate attention"),
-    ("⏳ Pending", pending_count, "Awaiting action"),
-    ("✅ Resolved", resolved_count, "Successfully closed"),
-    ("🎯 Avg Confidence", f"{avg_confidence:.0%}", "AI extraction quality"),
-]
+            ("📁 Total Reports", total_reports, "All inspections stored"),
+            ("🔴 High Severity", high_severity_count, "Immediate attention"),
+            ("⏳ Pending", pending_count, "Awaiting action"),
+            ("✅ Resolved", resolved_count, "Successfully closed"),
+            ("🎯 Avg Confidence", f"{avg_confidence:.0%}", "AI extraction quality"),
+        ]
         for col, (label, value, subtitle) in zip([c1, c2, c3, c4, c5], stats):
             col.markdown(
-    f"""
+                f"""
     <div class="metric-card">
         <div class="metric-label">{label}</div>
         <div class="metric-value">{value}</div>
@@ -396,16 +426,13 @@ elif st.session_state.nav == "Live Dashboard":
         </div>
     </div>
     """,
-    unsafe_allow_html=True,
-)
+                unsafe_allow_html=True,
+            )
 
         st.markdown("---")
 
         status_counts = (
-            df["Status"]
-            .value_counts()
-            .rename_axis("Status")
-            .reset_index(name="Count")
+            df["Status"].value_counts().rename_axis("Status").reset_index(name="Count")
         )
 
         fig_status = px.pie(
@@ -417,15 +444,9 @@ elif st.session_state.nav == "Live Dashboard":
 
         st.markdown("---")
 
-        timeline = (
-            df.groupby("Inspection Date")
-            .size()
-            .reset_index(name="Reports")
-        )
+        timeline = df.groupby("Inspection Date").size().reset_index(name="Reports")
 
-        timeline["Inspection Date"] = pd.to_datetime(
-            timeline["Inspection Date"]
-        )
+        timeline["Inspection Date"] = pd.to_datetime(timeline["Inspection Date"])
 
         timeline = timeline.sort_values("Inspection Date")
 
@@ -473,20 +494,26 @@ elif st.session_state.nav == "Live Dashboard":
 
         st.markdown("---")
 
-
-
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown('<div class="section-title">🔍 Filter Reports</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="section-title">🔍 Filter Reports</div>', unsafe_allow_html=True
+        )
 
         f1, f2, f3, f4 = st.columns(4)
         with f1:
-            sev_filter = st.multiselect("Severity", ["High", "Medium", "Low"], default=[])
+            sev_filter = st.multiselect(
+                "Severity", ["High", "Medium", "Low"], default=[]
+            )
         with f2:
-            status_filter = st.multiselect("Status", ["Pending", "In Progress", "Resolved"], default=[])
+            status_filter = st.multiselect(
+                "Status", ["Pending", "In Progress", "Resolved"], default=[]
+            )
         with f3:
             search_term = st.text_input("Search institution / location", "")
         with f4:
-            sort_by = st.selectbox("Sort by", ["Inspection Date", "Confidence", "People"], index=0)
+            sort_by = st.selectbox(
+                "Sort by", ["Inspection Date", "Confidence", "People"], index=0
+            )
 
         filtered = df.copy()
         if sev_filter:
@@ -494,10 +521,9 @@ elif st.session_state.nav == "Live Dashboard":
         if status_filter:
             filtered = filtered[filtered["Status"].isin(status_filter)]
         if search_term:
-            mask = (
-                filtered["Institution"].str.contains(search_term, case=False, na=False)
-                | filtered["Location"].str.contains(search_term, case=False, na=False)
-            )
+            mask = filtered["Institution"].str.contains(
+                search_term, case=False, na=False
+            ) | filtered["Location"].str.contains(search_term, case=False, na=False)
             filtered = filtered[mask]
         filtered = filtered.sort_values(sort_by, ascending=False)
 
@@ -507,8 +533,13 @@ elif st.session_state.nav == "Live Dashboard":
         )
         st.markdown("<br>", unsafe_allow_html=True)
 
-    st.markdown('<div class="section-title">✏️ Editable Report Table</div>', unsafe_allow_html=True)
-    st.caption("Change the Status column directly — updates save to the database instantly.")
+    st.markdown(
+        '<div class="section-title">✏️ Editable Report Table</div>',
+        unsafe_allow_html=True,
+    )
+    st.caption(
+        "Change the Status column directly — updates save to the database instantly."
+    )
 
     edited = st.data_editor(
         filtered,
@@ -537,16 +568,29 @@ elif st.session_state.nav == "Live Dashboard":
 
     csv = filtered.to_csv(index=False).encode("utf-8")
     dl1, dl2 = st.columns(2)
-    dl1.download_button("⬇️ Export CSV", csv, "fieldform_reports.csv", "text/csv", use_container_width=True)
+    dl1.download_button(
+        "⬇️ Export CSV",
+        csv,
+        "fieldform_reports.csv",
+        "text/csv",
+        use_container_width=True,
+    )
     dl2.download_button(
-        "⬇️ Export JSON", filtered.to_json(orient="records", indent=2),
-        "fieldform_reports.json", "application/json", use_container_width=True,
+        "⬇️ Export JSON",
+        filtered.to_json(orient="records", indent=2),
+        "fieldform_reports.json",
+        "application/json",
+        use_container_width=True,
     )
 
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown('<div class="section-title">🗑️ Remove a Report</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-title">🗑️ Remove a Report</div>', unsafe_allow_html=True
+    )
     del_col1, del_col2 = st.columns([3, 1])
-    report_to_delete = del_col1.selectbox("Report ID", options=filtered["Report ID"].tolist())
+    report_to_delete = del_col1.selectbox(
+        "Report ID", options=filtered["Report ID"].tolist()
+    )
     if del_col2.button("Delete", use_container_width=True):
         delete_report(report_to_delete)
         st.toast(f"Deleted {report_to_delete}", icon="🗑️")
@@ -562,15 +606,30 @@ elif st.session_state.nav == "Analytics":
         st.info("No data to analyze yet. Generate a few reports first.")
     else:
         columns = [
-            "Report ID", "Inspection Date", "State", "District", "Location",
-            "Institution", "Institution Type", "Inspector", "Summary",
-            "People", "Issues", "Severity", "Recommended Actions", "Status", "Confidence",
+            "Report ID",
+            "Inspection Date",
+            "State",
+            "District",
+            "Location",
+            "Institution",
+            "Institution Type",
+            "Inspector",
+            "Summary",
+            "People",
+            "Issues",
+            "Severity",
+            "Recommended Actions",
+            "Status",
+            "Confidence",
         ]
         df = pd.DataFrame(saved_reports, columns=columns)
         df["Inspection Date"] = pd.to_datetime(df["Inspection Date"], errors="coerce")
 
         # --- Confidence gauge ---
-        st.markdown('<div class="section-title">🎯 Overall Confidence Health</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="section-title">🎯 Overall Confidence Health</div>',
+            unsafe_allow_html=True,
+        )
         avg_conf = df["Confidence"].mean()
         gauge = go.Figure(
             go.Indicator(
@@ -590,76 +649,168 @@ elif st.session_state.nav == "Analytics":
             )
         )
         gauge.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)", font=dict(color="#f0f1f8"),
-            margin=dict(t=20, b=10, l=20, r=20), height=260,
+            paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#f0f1f8"),
+            margin=dict(t=20, b=10, l=20, r=20),
+            height=260,
         )
         st.plotly_chart(gauge, use_container_width=True)
 
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown('<div class="section-title">Severity Distribution</div>', unsafe_allow_html=True)
+            st.markdown(
+                '<div class="section-title">Severity Distribution</div>',
+                unsafe_allow_html=True,
+            )
             sev_counts = df["Severity"].value_counts()
-            fig = go.Figure(data=[go.Pie(
-                labels=sev_counts.index, values=sev_counts.values, hole=0.55,
-                marker=dict(colors=[SEVERITY_COLORS.get(s, "#888") for s in sev_counts.index]),
-                textinfo="label+percent",
-            )])
-            fig.update_layout(showlegend=False, paper_bgcolor="rgba(0,0,0,0)",
-                               font=dict(color="#f0f1f8"), margin=dict(t=10, b=10, l=10, r=10), height=320)
+            fig = go.Figure(
+                data=[
+                    go.Pie(
+                        labels=sev_counts.index,
+                        values=sev_counts.values,
+                        hole=0.55,
+                        marker=dict(
+                            colors=[
+                                SEVERITY_COLORS.get(s, "#888") for s in sev_counts.index
+                            ]
+                        ),
+                        textinfo="label+percent",
+                    )
+                ]
+            )
+            fig.update_layout(
+                showlegend=False,
+                paper_bgcolor="rgba(0,0,0,0)",
+                font=dict(color="#f0f1f8"),
+                margin=dict(t=10, b=10, l=10, r=10),
+                height=320,
+            )
             st.plotly_chart(fig, use_container_width=True)
 
         with col2:
-            st.markdown('<div class="section-title">Status Breakdown</div>', unsafe_allow_html=True)
+            st.markdown(
+                '<div class="section-title">Status Breakdown</div>',
+                unsafe_allow_html=True,
+            )
             status_counts = df["Status"].value_counts()
-            fig2 = go.Figure(data=[go.Bar(
-                x=status_counts.index, y=status_counts.values,
-                marker=dict(color=[STATUS_COLORS.get(s, ACCENT) for s in status_counts.index]),
-            )])
-            fig2.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-                                font=dict(color="#f0f1f8"), margin=dict(t=10, b=10, l=10, r=10), height=320,
-                                xaxis=dict(showgrid=False), yaxis=dict(gridcolor="rgba(255,255,255,0.07)"))
+            fig2 = go.Figure(
+                data=[
+                    go.Bar(
+                        x=status_counts.index,
+                        y=status_counts.values,
+                        marker=dict(
+                            color=[
+                                STATUS_COLORS.get(s, ACCENT)
+                                for s in status_counts.index
+                            ]
+                        ),
+                    )
+                ]
+            )
+            fig2.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(color="#f0f1f8"),
+                margin=dict(t=10, b=10, l=10, r=10),
+                height=320,
+                xaxis=dict(showgrid=False),
+                yaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
+            )
             st.plotly_chart(fig2, use_container_width=True)
 
-        st.markdown('<div class="section-title">Reports Over Time</div>', unsafe_allow_html=True)
-        timeline = df.dropna(subset=["Inspection Date"]).groupby(
-            df["Inspection Date"].dt.date
-        ).size().reset_index(name="count")
-        fig3 = go.Figure(data=[go.Scatter(
-            x=timeline["Inspection Date"], y=timeline["count"], mode="lines+markers",
-            line=dict(color=PRIMARY, width=3), marker=dict(size=8, color=ACCENT),
-            fill="tozeroy", fillcolor="rgba(108,99,255,0.12)",
-        )])
-        fig3.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-                            font=dict(color="#f0f1f8"), margin=dict(t=10, b=10, l=10, r=10), height=300,
-                            xaxis=dict(showgrid=False), yaxis=dict(gridcolor="rgba(255,255,255,0.07)"))
+        st.markdown(
+            '<div class="section-title">Reports Over Time</div>', unsafe_allow_html=True
+        )
+        timeline = (
+            df.dropna(subset=["Inspection Date"])
+            .groupby(df["Inspection Date"].dt.date)
+            .size()
+            .reset_index(name="count")
+        )
+        fig3 = go.Figure(
+            data=[
+                go.Scatter(
+                    x=timeline["Inspection Date"],
+                    y=timeline["count"],
+                    mode="lines+markers",
+                    line=dict(color=PRIMARY, width=3),
+                    marker=dict(size=8, color=ACCENT),
+                    fill="tozeroy",
+                    fillcolor="rgba(108,99,255,0.12)",
+                )
+            ]
+        )
+        fig3.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#f0f1f8"),
+            margin=dict(t=10, b=10, l=10, r=10),
+            height=300,
+            xaxis=dict(showgrid=False),
+            yaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
+        )
         st.plotly_chart(fig3, use_container_width=True)
 
         col3, col4 = st.columns(2)
         with col3:
-            st.markdown('<div class="section-title">Top Institutions by Reports</div>', unsafe_allow_html=True)
+            st.markdown(
+                '<div class="section-title">Top Institutions by Reports</div>',
+                unsafe_allow_html=True,
+            )
             top_inst = df["Institution"].value_counts().head(8)
-            fig4 = go.Figure(data=[go.Bar(
-                x=top_inst.values, y=top_inst.index, orientation="h", marker=dict(color=ACCENT)
-            )])
-            fig4.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-                                font=dict(color="#f0f1f8"), margin=dict(t=10, b=10, l=10, r=10), height=320,
-                                yaxis=dict(autorange="reversed"))
+            fig4 = go.Figure(
+                data=[
+                    go.Bar(
+                        x=top_inst.values,
+                        y=top_inst.index,
+                        orientation="h",
+                        marker=dict(color=ACCENT),
+                    )
+                ]
+            )
+            fig4.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(color="#f0f1f8"),
+                margin=dict(t=10, b=10, l=10, r=10),
+                height=320,
+                yaxis=dict(autorange="reversed"),
+            )
             st.plotly_chart(fig4, use_container_width=True)
 
         with col4:
-            st.markdown('<div class="section-title">People Present vs Confidence</div>', unsafe_allow_html=True)
-            fig5 = go.Figure(data=[go.Scatter(
-                x=df["People"], y=df["Confidence"], mode="markers",
-                marker=dict(
-                    size=12, color=[SEVERITY_COLORS.get(s, "#888") for s in df["Severity"]],
-                    line=dict(width=1, color="white"),
+            st.markdown(
+                '<div class="section-title">People Present vs Confidence</div>',
+                unsafe_allow_html=True,
+            )
+            fig5 = go.Figure(
+                data=[
+                    go.Scatter(
+                        x=df["People"],
+                        y=df["Confidence"],
+                        mode="markers",
+                        marker=dict(
+                            size=12,
+                            color=[
+                                SEVERITY_COLORS.get(s, "#888") for s in df["Severity"]
+                            ],
+                            line=dict(width=1, color="white"),
+                        ),
+                        text=df["Institution"],
+                    )
+                ]
+            )
+            fig5.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(color="#f0f1f8"),
+                margin=dict(t=10, b=10, l=10, r=10),
+                height=320,
+                xaxis=dict(title="People Present", gridcolor="rgba(255,255,255,0.07)"),
+                yaxis=dict(
+                    title="Confidence", range=[0, 1], gridcolor="rgba(255,255,255,0.07)"
                 ),
-                text=df["Institution"],
-            )])
-            fig5.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-                                font=dict(color="#f0f1f8"), margin=dict(t=10, b=10, l=10, r=10), height=320,
-                                xaxis=dict(title="People Present", gridcolor="rgba(255,255,255,0.07)"),
-                                yaxis=dict(title="Confidence", range=[0, 1], gridcolor="rgba(255,255,255,0.07)"))
+            )
             st.plotly_chart(fig5, use_container_width=True)
 
 # ============================================================================
@@ -669,37 +820,56 @@ elif st.session_state.nav == "Report Explorer":
     saved_reports = get_all_reports()
 
     if not saved_reports:
-        st.info("No saved reports yet. Go to **Record Inspection** to create your first one.")
+        st.info(
+            "No saved reports yet. Go to **Record Inspection** to create your first one."
+        )
     else:
         columns = [
-            "Report ID", "Inspection Date", "State", "District", "Location",
-            "Institution", "Institution Type", "Inspector", "Summary",
-            "People", "Issues", "Severity", "Recommended Actions", "Status", "Confidence",
+            "Report ID",
+            "Inspection Date",
+            "State",
+            "District",
+            "Location",
+            "Institution",
+            "Institution Type",
+            "Inspector",
+            "Summary",
+            "People",
+            "Issues",
+            "Severity",
+            "Recommended Actions",
+            "Status",
+            "Confidence",
         ]
         saved_reports = get_all_reports()
 df = pd.DataFrame(saved_reports, columns=columns)
 
-st.markdown('<div class="section-title">🗂️ Report Explorer</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="section-title">🗂️ Report Explorer</div>', unsafe_allow_html=True
+)
 
 search_text = st.text_input(
-            "🔎 Search reports",
-            placeholder="Search by report ID, institution, location, district, or state",
-        )
+    "🔎 Search reports",
+    placeholder="Search by report ID, institution, location, district, or state",
+)
 
 view = df.copy()
 
 if search_text:
-            search_lower = search_text.lower()
+    search_lower = search_text.lower()
 
-            mask = (
-                view["Report ID"].astype(str).str.lower().str.contains(search_lower, na=False)
-                | view["Institution"].astype(str).str.lower().str.contains(search_lower, na=False)
-                | view["Location"].astype(str).str.lower().str.contains(search_lower, na=False)
-                | view["District"].astype(str).str.lower().str.contains(search_lower, na=False)
-                | view["State"].astype(str).str.lower().str.contains(search_lower, na=False)
-            )
+    mask = (
+        view["Report ID"].astype(str).str.lower().str.contains(search_lower, na=False)
+        | view["Institution"]
+        .astype(str)
+        .str.lower()
+        .str.contains(search_lower, na=False)
+        | view["Location"].astype(str).str.lower().str.contains(search_lower, na=False)
+        | view["District"].astype(str).str.lower().str.contains(search_lower, na=False)
+        | view["State"].astype(str).str.lower().str.contains(search_lower, na=False)
+    )
 
-            view = view[mask]
+    view = view[mask]
 
 st.caption(f"{len(view)} matching report(s) found")
 

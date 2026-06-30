@@ -20,17 +20,11 @@ report = InspectionReport(
     inspector_name="Yogesh",
     summary="Roof leakage observed.",
     people_count=150,
-    issues=[
-        "Roof leakage",
-        "No drinking water"
-    ],
+    issues=["Roof leakage", "No drinking water"],
     severity=Severity.HIGH,
-    recommended_actions=[
-        "Repair roof",
-        "Restore water supply"
-    ],
+    recommended_actions=["Repair roof", "Restore water supply"],
     status=Status.PENDING,
-    confidence_score=0.95
+    confidence_score=0.95,
 )
 
 save_report(report)

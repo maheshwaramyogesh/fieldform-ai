@@ -56,6 +56,7 @@ def _normalize_date(value):
 
     return date.today()
 
+
 def _first_value(value, default):
     """Return first item if value is a list, otherwise return value or default."""
     if isinstance(value, list) and value:
@@ -233,7 +234,7 @@ def _normalize_report_id(value) -> str:
         "resolved",
         "in progress",
         "null",
-        "none"
+        "none",
     }
 
     if value.lower() in invalid_values:
@@ -272,6 +273,7 @@ def _normalize_confidence(value) -> float:
 
     return round(score, 2)
 
+
 def _normalize_text(value, default="Unknown"):
     """
     Normalize text fields by replacing empty or invalid values.
@@ -294,13 +296,15 @@ def _normalize_text(value, default="Unknown"):
         "low",
         "unknown",
         "n/a",
-        "na"
+        "na",
     }
 
     if value.lower() in invalid_values:
         return default
 
     return value
+
+
 def normalize_ai_output(ai_output: dict) -> InspectionReport:
     """Convert raw AI JSON into a valid InspectionReport."""
 
@@ -317,7 +321,9 @@ def normalize_ai_output(ai_output: dict) -> InspectionReport:
         people_count=_normalize_people_count(ai_output.get("people_count")),
         issues=_normalize_issues(ai_output.get("issues", [])),
         severity=_normalize_severity(ai_output.get("severity")),
-        recommended_actions=_normalize_actions(ai_output.get("recommended_actions", [])),
+        recommended_actions=_normalize_actions(
+            ai_output.get("recommended_actions", [])
+        ),
         status=_normalize_status(ai_output.get("status")),
         confidence_score=_normalize_confidence(ai_output.get("confidence_score")),
     )

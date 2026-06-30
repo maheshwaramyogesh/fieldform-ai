@@ -3,6 +3,7 @@ from typing import List
 from datetime import date
 from enum import Enum
 
+
 class Severity(str, Enum):
     LOW = "Low"
     MEDIUM = "Medium"
@@ -13,6 +14,8 @@ class Status(str, Enum):
     PENDING = "Pending"
     IN_PROGRESS = "In Progress"
     RESOLVED = "Resolved"
+
+
 class InspectionReport(BaseModel):
     report_id: str = Field(..., description="Unique report ID")
 
@@ -35,8 +38,8 @@ class InspectionReport(BaseModel):
     people_count: int = Field(..., ge=0)
 
     recommended_actions: List[str] = Field(
-    description="Recommended actions to resolve the issues"
-)
+        description="Recommended actions to resolve the issues"
+    )
 
     issues: List[str]
 

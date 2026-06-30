@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 
 DATABASE_NAME = "fieldform.db"
+
+
 def create_database():
     """Create the SQLite database and inspection_reports table."""
 
@@ -32,39 +34,41 @@ def create_database():
     conn.commit()
     conn.close()
 
-    
+
 def save_report(report):
     """Save an inspection report to the database."""
 
     conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
 
-    cursor.execute("""
+    cursor.execute(
+        """
     INSERT OR REPLACE INTO inspection_reports VALUES (
             ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )
-    """, (
-        report.report_id,
-        str(report.inspection_date),
-        report.state,
-        report.district,
-        report.location,
-        report.institution_name,
-        report.institution_type,
-        report.inspector_name,
-        report.summary,
-        report.people_count,
-        json.dumps(report.issues),
-        report.severity.value,
-        json.dumps(report.recommended_actions),
-        report.status.value,
-        report.confidence_score
-    ))
+    """,
+        (
+            report.report_id,
+            str(report.inspection_date),
+            report.state,
+            report.district,
+            report.location,
+            report.institution_name,
+            report.institution_type,
+            report.inspector_name,
+            report.summary,
+            report.people_count,
+            json.dumps(report.issues),
+            report.severity.value,
+            json.dumps(report.recommended_actions),
+            report.status.value,
+            report.confidence_score,
+        ),
+    )
 
     conn.commit()
     conn.close()
 
-    
 
 def get_all_reports():
     """Retrieve all inspection reports."""
@@ -79,6 +83,7 @@ def get_all_reports():
     conn.close()
 
     return reports
+
 
 def update_status(report_id, new_status):
     """Update the status field of a single report."""
@@ -116,10 +121,7 @@ def get_report_by_id(report_id):
     conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
 
-    cursor.execute(
-        "SELECT * FROM inspection_reports WHERE report_id = ?",
-        (report_id,)
-    )
+    cursor.execute("SELECT * FROM inspection_reports WHERE report_id = ?", (report_id,))
 
     report = cursor.fetchone()
 
