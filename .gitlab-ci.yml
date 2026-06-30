@@ -1,49 +1,47 @@
-image: python:3.11
-
 stages:
   - verify
 
 before_script:
-  - python --version
-  - python -m pip install --upgrade pip
-  - python -m pip install -r requirements.txt
+  - py --version
+  - py -m pip install --upgrade pip
+  - py -m pip install -r requirements.txt
 
 python_syntax:
   stage: verify
   script:
-    - python -m compileall app
+    - py -m compileall app
 
 black:
   stage: verify
   script:
-    - python -m black --check app
+    - py -m black --check app
 
 ruff:
   stage: verify
   script:
-    - python -m ruff check app
+    - py -m ruff check app
 
 isort:
   stage: verify
   script:
-    - python -m isort --check-only app
+    - py -m isort --check-only app
 
 flake8:
   stage: verify
   script:
-    - python -m flake8 app
+    - py -m flake8 app
 
 bandit:
   stage: verify
   script:
-    - python -m bandit -r app
+    - py -m bandit -r app
 
 detect_secrets:
   stage: verify
   script:
-    - python -m detect_secrets scan --all-files
+    - py -m detect_secrets scan --all-files
 
 pip_audit:
   stage: verify
   script:
-    - python -m pip_audit
+    - py -m pip_audit
