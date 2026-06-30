@@ -22,13 +22,17 @@ The generated structured records are validated and stored in a local SQLite data
 
 ## ✨ Features
 
-* 🔒 Offline-first operation with no dependency on cloud APIs.
-* 💻 CPU-first AI inference using lightweight local language models.
-* 📝 Converts free-form inspection notes into structured JSON records.
-* 🗄️ Stores extracted records in a local SQLite database.
-* ⚡ Fast and lightweight architecture suitable for laptops and low-resource devices.
-* 📊 Structured data ready for reporting, analytics, and future integration.
-* 🔐 Privacy-focused processing, with all data remaining on the local machine.
+- 🔒 Offline-first architecture (No cloud APIs)
+- 💻 CPU-only AI inference using Ollama
+- 🎤 Offline speech-to-text using Faster-Whisper
+- 📝 Convert unstructured inspection notes into structured JSON
+- ✅ Automatic schema validation and normalization
+- 💾 Local SQLite database for report storage
+- 📊 Interactive analytics dashboard
+- 🔍 Search and filter inspection reports
+- 📄 Export reports as JSON and PDF
+- 📈 Severity and inspection trend visualization
+- 🛡 Privacy-first processing (all data stays on-device)
 
 ## 🛠️ Technology Stack
 
