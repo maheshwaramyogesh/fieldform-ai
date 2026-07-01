@@ -12,6 +12,24 @@ All AI inference runs locally on the user's device without relying on cloud APIs
 
 FieldForm AI was developed for the **CPU-First Offline AI Hackathon** with the objective of demonstrating that powerful AI applications can run efficiently on ordinary laptops without relying on GPUs or cloud services.
 
+## Live Demo
+
+The application is deployed at:
+
+https://fieldform-ai-cec0.onrender.com/
+
+### Offline Mode
+
+The project is designed as an offline-first CPU AI application.
+For full AI inference, run Ollama locally:
+
+```bash
+ollama pull llama3.2
+streamlit run app/app.py
+```
+
+The deployed version demonstrates the web interface, while the complete offline functionality is available when running locally with Ollama.
+
 ### Highlights
 
 - ✅ Fully Offline AI Processing
